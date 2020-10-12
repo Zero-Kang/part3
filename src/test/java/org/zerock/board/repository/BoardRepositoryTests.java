@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
+import org.zerock.board.dto.PageRequestDTO;
 import org.zerock.board.entity.Board;
 import org.zerock.board.entity.Member;
 
@@ -104,7 +105,29 @@ public class BoardRepositoryTests {
         System.out.println(Arrays.toString(arr));
     }
 
+    @Test
+    public void testSearch(){
 
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+        pageRequestDTO.setPage(1);
+        pageRequestDTO.setSize(10);
+        pageRequestDTO.setType("twc");
+        pageRequestDTO.setKeyword("@aaa");
+
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("bno").descending());
+
+        Page<Object[]> result = boardRepository.searchList( pageRequestDTO );
+
+        System.out.println(result);
+
+        result.get().forEach(row -> {
+
+            Object[] arr = (Object[])row;
+
+            System.out.println(Arrays.toString(arr));
+        });
+
+    }
 
 
 }
