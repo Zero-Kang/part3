@@ -106,28 +106,47 @@ public class BoardRepositoryTests {
     }
 
     @Test
-    public void testSearch(){
+    public void testSearch1() {
 
-        PageRequestDTO pageRequestDTO = new PageRequestDTO();
-        pageRequestDTO.setPage(1);
-        pageRequestDTO.setSize(10);
-        pageRequestDTO.setType("twc");
-        pageRequestDTO.setKeyword("@aaa");
-
-        Pageable pageable = pageRequestDTO.getPageable(Sort.by("bno").descending());
-
-        Page<Object[]> result = boardRepository.searchList( pageRequestDTO );
-
-        System.out.println(result);
-
-        result.get().forEach(row -> {
-
-            Object[] arr = (Object[])row;
-
-            System.out.println(Arrays.toString(arr));
-        });
+        boardRepository.search1();
 
     }
+
+    @Test
+    public void testSearchPage() {
+
+        Pageable pageable =
+                PageRequest.of(0,10,
+                        Sort.by("bno").descending()
+                                .and(Sort.by("title").ascending()));
+
+        Page<Object[]> result = boardRepository.searchPage("t", "1", pageable);
+
+    }
+
+//    @Test
+//    public void testSearch(){
+//
+//        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+//        pageRequestDTO.setPage(1);
+//        pageRequestDTO.setSize(10);
+//        pageRequestDTO.setType("twc");
+//        pageRequestDTO.setKeyword("3");
+//
+//        Pageable pageable = pageRequestDTO.getPageable(Sort.by("bno").descending());
+//
+//        Page<Object[]> result = boardRepository.searchList( pageRequestDTO );
+//
+//        System.out.println(result);
+//
+//        result.get().forEach(row -> {
+//
+//            Object[] arr = (Object[])row;
+//
+//            System.out.println(Arrays.toString(arr));
+//        });
+//
+//    }
 
 
 }
